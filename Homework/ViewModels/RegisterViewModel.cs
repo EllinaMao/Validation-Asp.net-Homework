@@ -19,13 +19,13 @@ namespace Homework.ViewModels
 10) [URL]: Проверяет формат URL-адреса в поле "Website".
 11) [Remote]: Проверяет уникальность имени пользователя ("Username") путем вызова метода действия на сервере.
      */
-    record class RegisterViewModel
+    public record class RegisterViewModel
     {
         [ValidateNever]
-        public string TempsOfService { get; set; }
+        public bool TempsOfService { get; set; }
         
         [CreditCard(ErrorMessage = "Please enter a valid credit card number.")]
-        public string CreditCard { get; set; }
+        public string CreditCardNumber { get; set; }
         
         [Required(ErrorMessage = "You need to enter password")]
         [StringLength(100, ErrorMessage = "Password must be between 6 and 100 characters.", MinimumLength = 6)]
@@ -34,11 +34,11 @@ namespace Homework.ViewModels
         [Compare("Password", ErrorMessage = "Passwords do not match.")]
         [Required(ErrorMessage = "You need to confirm password")]
         [StringLength(100, ErrorMessage = "Password must be between 6 and 100 characters.", MinimumLength = 6)]
-        public string PasswordConfirm { get; set; }
+        public string ConfirmPassword { get; set; }
         
         [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
         [Required(ErrorMessage = "Email is required.")]
-        public MailAddress Email { get; set; }
+        public string Email { get; set; }
 
         [Phone(ErrorMessage = "Please enter a valid phone number.")]
         public string PhoneNumber { get; set; }
