@@ -17,16 +17,16 @@ namespace Homework.Controllers
         }
 
         [AcceptVerbs("GET", "POST")]
-        public async Task<IActionResult> IsUsernameAvailable(string username)
+        public async Task<IActionResult> IsUsernameAvailable(string Username)
         {
-            var isAvailable = await _registerService.IsUsernameAvailableAsync(username);
+            var isAvailable = await _registerService.IsUsernameAvailableAsync(Username);
 
             if (isAvailable)
             {
                 return Json(true);
             }
 
-            return Json($"Username '{username}' is already taken.");
+            return Json($"Username '{Username}' is already taken.");
         }
 
         [HttpGet]
@@ -39,7 +39,14 @@ namespace Homework.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-           
+            if (!string.IsNullOrWhiteSpace(model.Username))
+            {
+                var isAvailable = await _registerService.IsUsernameAvailableAsync(model.Username);
+                if (!isAvailable)
+                {
+                    ModelState.AddModelError("Username", $"Username '{model.Username}' is already taken.");
+                }
+            }
             if (ModelState.IsValid)
             {
                 var user = new User
